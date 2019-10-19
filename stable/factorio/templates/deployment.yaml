@@ -16,7 +16,7 @@ spec:
       containers:
       - name: {{ template "factorio.fullname" . }}
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
@@ -68,6 +68,8 @@ spec:
             secretKeyRef:
               name: {{ template "factorio.fullname" . }}
               key: rcon-password
+        - name: FACTORIO_RCON_PORT
+          value: {{ .Values.factorioServer.rcon.port | quote }}
         {{- end }}
 
         ports:
